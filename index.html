@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Key Authenticated 🟩</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b0f1a;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .box {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 25px;
+      border-radius: 12px;
+      width: 320px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+    }
+
+    h2 {
+      margin-bottom: 15px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 6px;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      background: #4caf50;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 8px;
+    }
+
+    button:hover {
+      background: #43a047;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .key-box {
+      word-break: break-word;
+      font-size: 13px;
+      background: rgba(255,255,255,0.08);
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="box" id="loginBox">
+  <h2>Key Authenticated 🟩</h2>
+  <p>Enter UID to continue</p>
+
+  <input type="text" id="uidInput" placeholder="Enter UID here">
+
+  <button onclick="checkUID()">Submit</button>
+
+  <p id="msg" style="color:red;"></p>
+</div>
+
+<div class="box hidden" id="keyBox">
+  <h2>Access Granted 🟩</h2>
+
+  <div class="key-box" id="keyText">
+    К𝕆ඞᒐᙎ-𝕄𝕝𝕒𝕡-𝟡𝕡𝕒𝕞𝕜𝕜𝑘𝑘𝑒𝑏𝑚𝑎-ᴊᴡʟᴡʙ-ɿɿઽՈ-ඞ̈̄ʍօʝɢʊֆ-2026.
+  </div>
+
+  <button onclick="copyKey()">Copy Key</button>
+</div>
+
+<script>
+  const correctUID = "UID-7f3c9a1b6e4d2c8f91a0d5b3e7c6f8a2d9b1c4e6f0a8d3c5b7e1f9a2d4c6b8e0f1a3c5d7b9e2f4a6c8d0b2e4f6a8c1d3b5e7f9a0c2d4b6e8f1a3c5d7b9e0f2a4c6d8b1e3f5a7c9d0b2e4f6a8c0";
+
+  function checkUID() {
+    const input = document.getElementById("uidInput").value;
+    const msg = document.getElementById("msg");
+
+    if (input === correctUID) {
+      document.getElementById("loginBox").classList.add("hidden");
+      document.getElementById("keyBox").classList.remove("hidden");
+    } else {
+      msg.textContent = "Invalid UID ❌";
+    }
+  }
+
+  function copyKey() {
+    const key = document.getElementById("keyText").textContent;
+    navigator.clipboard.writeText(key);
+    alert("Key copied!");
+  }
+</script>
+
+</body>
+</html>
