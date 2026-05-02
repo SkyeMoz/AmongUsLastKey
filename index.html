@@ -1,118 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Password Authenticated 🟩</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Access Panel</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0b0f1a;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
 
-    .box {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      padding: 25px;
-      border-radius: 12px;
-      width: 320px;
-      text-align: center;
-      backdrop-filter: blur(10px);
-    }
+body{
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background: radial-gradient(circle at top,#0f172a,#020617);
+  color:white;
+  overflow:hidden;
+}
 
-    h2 {
-      margin-bottom: 15px;
-    }
+/* floating bg glow */
+body::before{
+  content:"";
+  position:absolute;
+  width:400px;
+  height:400px;
+  background:#00ffc8;
+  filter:blur(120px);
+  opacity:.15;
+  animation:float 6s ease-in-out infinite;
+}
 
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: none;
-      border-radius: 6px;
-      outline: none;
-    }
+@keyframes float{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-40px);}
+}
 
-    button {
-      width: 100%;
-      padding: 10px;
-      border: none;
-      border-radius: 6px;
-      background: #4caf50;
-      color: white;
-      cursor: pointer;
-      font-weight: bold;
-      margin-top: 8px;
-    }
+/* glass card */
+.box{
+  width:340px;
+  padding:28px;
+  border-radius:20px;
+  background:rgba(255,255,255,0.06);
+  backdrop-filter:blur(25px);
+  border:1px solid rgba(255,255,255,0.12);
+  box-shadow:0 10px 40px rgba(0,0,0,0.5);
+  text-align:center;
+  transition:.4s ease;
+}
 
-    button:hover {
-      background: #43a047;
-    }
+h2{
+  margin-bottom:10px;
+  font-weight:600;
+}
 
-    .hidden {
-      display: none;
-    }
+p{
+  font-size:13px;
+  opacity:.7;
+  margin-bottom:10px;
+}
 
-    .key-box {
-      word-break: break-word;
-      font-size: 13px;
-      background: rgba(255,255,255,0.08);
-      padding: 10px;
-      border-radius: 8px;
-      margin-top: 10px;
-    }
-  </style>
+/* input */
+input{
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.05);
+  color:white;
+  outline:none;
+  transition:.25s;
+}
+
+input:focus{
+  border-color:#00ffc8;
+  box-shadow:0 0 10px rgba(0,255,200,0.3);
+}
+
+/* buttons */
+button{
+  width:100%;
+  padding:12px;
+  margin-top:12px;
+  border:none;
+  border-radius:12px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.25s;
+}
+
+/* submit */
+.submit{
+  background:linear-gradient(90deg,#00ffc8,#00a2ff);
+  color:black;
+}
+
+.submit:hover{
+  transform:scale(1.04);
+  box-shadow:0 0 20px rgba(0,255,200,0.4);
+}
+
+/* copy button */
+.copy{
+  background:rgba(255,255,255,0.08);
+  color:white;
+  border:1px solid rgba(255,255,255,0.15);
+}
+
+.copy:hover{
+  background:rgba(255,255,255,0.15);
+}
+
+/* key box */
+.key-box{
+  word-break:break-word;
+  font-size:12px;
+  background:rgba(255,255,255,0.07);
+  padding:12px;
+  border-radius:12px;
+  margin-top:12px;
+}
+
+/* transitions */
+.hidden{
+  opacity:0;
+  transform:scale(.9);
+  pointer-events:none;
+  position:absolute;
+}
+
+.show{
+  opacity:1;
+  transform:scale(1);
+}
+
+/* message */
+#msg{
+  color:#ff6b6b;
+  font-size:13px;
+  margin-top:8px;
+}
+
+/* success anim */
+.success{
+  animation:pop .4s ease;
+}
+
+@keyframes pop{
+  0%{transform:scale(.8); opacity:0;}
+  100%{transform:scale(1); opacity:1;}
+}
+</style>
 </head>
 
 <body>
 
-<div class="box" id="loginBox">
-  <h2>Key Authenticated 🟩</h2>
-  <p>Enter UID to continue</p>
+<!-- LOGIN -->
+<div class="box show" id="loginBox">
+  <h2>Key Authentication</h2>
+  <p>Paste your UID to continue</p>
 
-  <input type="text" id="uidInput" placeholder="Enter UID here">
+  <input type="text" id="uidInput" placeholder="Enter UID">
 
-  <button onclick="checkUID()">Submit</button>
+  <button class="submit" onclick="checkUID()" id="submitBtn">
+    Submit
+  </button>
 
-  <p id="msg" style="color:red;"></p>
+  <p id="msg"></p>
 </div>
 
+<!-- KEY -->
 <div class="box hidden" id="keyBox">
-  <h2>Access Granted 🟩</h2>
+  <h2>Access Granted ✓</h2>
 
   <div class="key-box" id="keyText">
-    SKYEMOZSTUDIOMODSFREEKEYLESS-20206262410  </div>
+    SKYEMOZSTUDIOMODSFREEKEYLESS-20206262410
+  </div>
 
-  <button onclick="copyKey()">Copy Key</button>
+  <button class="copy" onclick="copyKey()" id="copyBtn">
+    Copy Key
+  </button>
 </div>
 
 <script>
-  const correctUID = "UID-7f3c9a1b6e4d2c8f91a0d5b3e7c6f8a2d9b1c4e6f0a8d3c5b7e1f9a2d4c6b8e0f1a3c5d7b9e2f4a6c8d0b2e4f6a8c1d3b5e7f9a0c2d4b6e8f1a3c5d7b9e0f2a4c6d8b1e3f5a7c9d0b2e4f6a8c0";
+const correctUID = "UID-7f3c9a1b6e4d2c8f91a0d5b3e7c6f8a2d9b1c4e6f0a8d3c5b7e1f9a2d4c6b8e0f1a3c5d7b9e2f4a6c8d0b2e4f6a8c1d3b5e7f9a0c2d4b6e8f1a3c5d7b9e0f2a4c6d8b1e3f5a7c9d0b2e4f6a8c0";
 
-  function checkUID() {
-    const input = document.getElementById("uidInput").value;
-    const msg = document.getElementById("msg");
+function checkUID(){
+  const input = document.getElementById("uidInput").value.trim();
+  const msg = document.getElementById("msg");
+  const btn = document.getElementById("submitBtn");
 
-    if (input === correctUID) {
-      document.getElementById("loginBox").classList.add("hidden");
-      document.getElementById("keyBox").classList.remove("hidden");
-    } else {
-      msg.textContent = "Invalid UID ❌";
-    }
+  if(input === correctUID){
+    btn.innerText = "Verified ✓";
+
+    setTimeout(()=>{
+      document.getElementById("loginBox").classList.replace("show","hidden");
+      const keyBox = document.getElementById("keyBox");
+      keyBox.classList.replace("hidden","show");
+      keyBox.classList.add("success");
+    },500);
+
+  } else {
+    msg.textContent = "Invalid UID";
+    msg.style.animation = "none";
+    msg.offsetHeight;
+    msg.style.animation = "pop .2s ease";
   }
+}
 
-  function copyKey() {
-    const key = document.getElementById("keyText").textContent;
-    navigator.clipboard.writeText(key);
-    alert("Key copied!");
-  }
+function copyKey(){
+  const key = document.getElementById("keyText").innerText;
+  const btn = document.getElementById("copyBtn");
+
+  navigator.clipboard.writeText(key);
+
+  btn.innerText = "Copied ✓";
+  setTimeout(()=>btn.innerText="Copy Key",1500);
+}
 </script>
 
 </body>
